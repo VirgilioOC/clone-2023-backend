@@ -1,0 +1,21 @@
+body{
+    background-color:ghostwhite
+}
+
+.nav-link{
+    border:none; 
+    background:none
+}
+
+h1{
+    color:blue; 
+    text-align:center
+}
+
+table{
+    width:100%
+}
+
+tbody{
+    background-color:silver
+}

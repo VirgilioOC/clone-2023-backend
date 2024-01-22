@@ -1,0 +1,636 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API PedidosYa",
+        "description": "Esta API puede usarse para obtener información sobre los items y tipos, también consultar pedidos propios y crear un pedido.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/rest/clientes/{dniCliente}": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "description": "Obtiene el ID de un cliente específico por su DNI.",
+                "operationId": "53d9e4f6224525383c86f87806ace6b7",
+                "parameters": [
+                    {
+                        "name": "dniCliente",
+                        "in": "path",
+                        "description": "DNI del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "$ref": "#/components/schemas/IDCliente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    }
+                }
+            }
+        },
+        "/rest/clientes/{idCliente}/pedidos": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "description": "Obtiene los pedidos de un cliente específico por su ID.",
+                "operationId": "450782e1b7c2247e1317779a14e61e6f",
+                "parameters": [
+                    {
+                        "name": "idCliente",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pedido": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Pedido"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    }
+                }
+            }
+        },
+        "/rest/clientes": {
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "description": "Registra un nuevo cliente.",
+                "operationId": "a9841c08b97f5e5b6d1462c14c55618c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cliente"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string",
+                                            "example": "Cliente registrado de forma exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Lista de errores de validación",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "El DNI no puede ser vacío."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/items": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Obtiene una lista de todos los items activos.",
+                "operationId": "f590caa7f150d915afde7139c490610d",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Item"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/items/{id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Obtiene los detalles de un item específico por su ID.",
+                "operationId": "52671cf08305d5d9d4254560adfb3559",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DetalleItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Item no encontrado"
+                    }
+                }
+            }
+        },
+        "/rest/pedidos": {
+            "post": {
+                "tags": [
+                    "Pedido"
+                ],
+                "description": "Crea un nuevo pedido.",
+                "operationId": "d7355662d72eb92ea4bcd6b330b71fb4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreacionPedido"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido realizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string",
+                                            "example": "Pedido realizado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Lista de errores de validación",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Los detalles tienen que estar en formato de arreglo."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/tipos": {
+            "get": {
+                "tags": [
+                    "Tipos"
+                ],
+                "description": "Obtiene una lista de todos los tipos disponibles.",
+                "operationId": "getTipos",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tipos obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tipo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/tipos/{id}": {
+            "get": {
+                "tags": [
+                    "Tipos"
+                ],
+                "description": "Obtiene una lista de items por tipo según su ID.",
+                "operationId": "getItemsPorTipo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de items por tipo obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Item"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tipo no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Pedido": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "importe": {
+                        "type": "integer",
+                        "example": 4180
+                    },
+                    "direccion": {
+                        "type": "string",
+                        "example": "Donado"
+                    },
+                    "direccion_altura": {
+                        "type": "integer",
+                        "example": 678
+                    },
+                    "estado": {
+                        "type": "string",
+                        "example": "pendiente"
+                    },
+                    "detalle_items": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 2
+                                },
+                                "tamaño": {
+                                    "type": "string",
+                                    "example": "mediano"
+                                },
+                                "multiplicador_tamaño": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 0.8
+                                },
+                                "item": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Coca-Cola"
+                                            },
+                                            "precio": {
+                                                "type": "integer",
+                                                "example": 600
+                                            },
+                                            "path_imagen": {
+                                                "type": "string",
+                                                "example": "images/Coca-Cola.png"
+                                            },
+                                            "tipo": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "etiqueta": {
+                                                            "type": "string",
+                                                            "example": "bebida no alcoholica"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Cliente": {
+                "properties": {
+                    "DNI": {
+                        "type": "integer",
+                        "example": 42878752
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "Juan Cruz"
+                    },
+                    "apellido": {
+                        "type": "string",
+                        "example": "Rossi"
+                    },
+                    "telefono": {
+                        "type": "string",
+                        "example": "123456789"
+                    }
+                },
+                "type": "object"
+            },
+            "IDCliente": {
+                "properties": {
+                    "DNI": {
+                        "type": "integer",
+                        "example": 42878752
+                    }
+                },
+                "type": "object"
+            },
+            "Item": {
+                "properties": {
+                    "current page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "nombre": {
+                                    "type": "string",
+                                    "example": "Gomitas Mogul"
+                                },
+                                "etiqueta": {
+                                    "type": "string",
+                                    "example": "Snack"
+                                },
+                                "precio": {
+                                    "type": "integer",
+                                    "example": 140
+                                },
+                                "activo": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "path_imagen": {
+                                    "type": "string",
+                                    "example": "images/Gomitas_Mogul.png"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://digital-dynamos-laravel.vercel.app/rest/items?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://digital-dynamos-laravel.vercel.app/rest/items?page=1"
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "type": "stringr",
+                                    "example": "http://digital-dynamos-laravel.vercel.app/rest/items?page=1"
+                                },
+                                "label": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://digital-dynamos-laravel.vercel.app/rest/items"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "DetalleItem": {
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Coca-Cola"
+                    },
+                    "etiqueta": {
+                        "type": "string",
+                        "example": "bebida no alcoholica"
+                    },
+                    "tamaño": {
+                        "type": "string",
+                        "example": "mediano"
+                    },
+                    "coste": {
+                        "type": "integer",
+                        "example": 600
+                    },
+                    "path_imagen": {
+                        "type": "boolean",
+                        "example": "images/Coca-Cola.png"
+                    }
+                },
+                "type": "object"
+            },
+            "CreacionPedido": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 69
+                    },
+                    "importe": {
+                        "type": "integer",
+                        "example": 1200
+                    },
+                    "direccion": {
+                        "type": "string",
+                        "example": "Berutti"
+                    },
+                    "direccion_altura": {
+                        "type": "integer",
+                        "example": 273
+                    },
+                    "detalle_items": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 2
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Tipo": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "etiqueta": {
+                        "type": "string",
+                        "example": "Snack"
+                    },
+                    "activo": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Items",
+            "description": "Listar los items comprables y mostrar detalle de un item."
+        },
+        {
+            "name": "Clientes",
+            "description": "Consultar pedidos propios y almacenar el registro de nuevo usuario."
+        },
+        {
+            "name": "Tipos",
+            "description": "Listar tipos y mostrar items en base a un tipo especificado."
+        },
+        {
+            "name": "Pedido",
+            "description": "Crear pedido."
+        }
+    ]
+}
